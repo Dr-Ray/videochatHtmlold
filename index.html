@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Offline Video | Voice chat | Login</title>
+    <link rel="stylesheet" href="./index.css">
+    <script src="./js/jquery-1.12.4.js"></script>
+</head>
+<body>
+    <div class="r-app h-full">
+       <div class="row">
+            <div class="d w-400 h-100v bg-dark"></div>
+            <div class="body d-col w-full h-100v v-scroll">
+                <div class="header my-2">
+                    <h1 class="text-center text-white">Company Name</h1>
+                </div>
+        
+                <div class="centered h-full px-2">
+                    <div class="w-400 mx-auto">
+                        <form action="" class="login" id="loginform">
+                            <div class="form-group">
+                                <input type="text" class="form-control bt-1" id="ip" placeholder="IP address" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control bt-1" id="id" placeholder="Username / ID" />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control bt-1" id="password" placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" name="login" id="btn-login text-white" class="btn btn-login">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        
+                <div class="footer my-2">
+                    <div class="text-center text-white">  &copy; Company Name 2023 </div>
+                </div>
+            </div>
+       </div>
+    </div>
+    <script>
+
+        
+
+        $(function(){
+            let ip,id,pword;
+            $('#loginform').on('submit',(e) => {
+                e.preventDefault();
+
+                err = 0;
+                ip=$('#ip');
+                id=$('#id');
+                pword=$('#password');
+
+                ip.removeClass('error');
+                id.removeClass('error');
+                pword.removeClass('error');
+
+
+                if(ip.val() == '' ) {
+                    ip.addClass('error');
+                    err = 1;
+                }
+                if(id.val() == '' ) {
+                    id.addClass('error');
+                    err = 1;
+                }
+                if(pword.val() == '' ) {
+                    pword.addClass('error');
+                    err = 1;
+                }
+                if(err == 0) {
+                    console.log(ip.val(),id.val(),pword.val());
+                    
+                    window.location = `./home.html?ip=${ip.val()}&id=${id.val()}`;
+                    ip.val('');id.val('');pword.val('');
+                }
+            });
+            
+        });
+    </script>
+</body>
+</html>

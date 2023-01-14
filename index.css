@@ -1,0 +1,178 @@
+/*
+* Template Name : 
+* Template Author : 
+* Date Designed :
+* Github Repo Link :
+*/
+*,html {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+:root{
+    --primary:blue;
+    --secondary:gray;
+    --login:green;
+    --danger:red;
+}
+
+.r-app {
+    overflow: hidden;
+}
+
+.w-full{
+    width: 100%;
+}
+.w-400{
+    width: 400px;
+}
+
+.h-full{
+    height: 100%;
+}
+.h-100v{
+    height: 100vh;
+}
+
+.form-inline{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.form-inline .form-group {
+    margin:2px 0;
+}
+.form-group{
+    display: block;
+    margin: 10px 0;
+}
+.form-control{
+    width: 100%;
+    padding: 10px;
+    outline: 1px solid black;
+    border: none;
+    border-radius: 5px;
+}
+.form-control:focus{
+    outline: 1px solid green;
+    border: none;
+}
+.form-group .bt-1{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+    transition: .3s linear;
+}
+.form-group .bt-1:focus{
+    outline:none ;
+    border-bottom: 1px solid green;
+}
+.form-group .error {
+    border: none;
+    outline: 1px solid var(--danger);
+    transition: .3s linear;
+}
+
+.mx-auto{
+    margin: 0 auto;
+}
+.my-2{
+    margin:15px 0;
+}
+
+.px-2 {
+    padding: 0 10px;
+}
+.py-2{
+    padding: 10px 0;
+}
+.p-2{
+    padding: 10px;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.v-scroll{
+    overflow-y: auto;
+}
+.h-scroll{
+    overflow-x: auto;
+}
+
+.hr-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+}
+.d-col{
+    display: flex;
+    flex-direction: column;
+}
+.centered{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.justify-between{
+    justify-content: space-between;
+}
+.justify-around{
+    justify-content: space-around;
+}
+.justify-even{
+    justify-content: space-evenly;
+}
+.justify-center{
+    justify-content: center;
+}
+.flex-1{
+    flex: 1;
+}
+
+.bg-primary{
+    background-color: var(--primary);
+}
+.bg-gray-400{
+    background-color: #eee;
+}
+.bg-gray{
+    background-color: var(--secondary);
+}
+.bg-dark {
+    background: linear-gradient(rgba(0,0,0),rgba(0,0,0));
+}
+
+.btn {
+    border: none;
+    outline: none;
+    width: max-content;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-login{
+    background-color: var(--login);
+    padding: 10px 15px;
+}
+
+@media screen and (max-width: 500px) {
+    .body{
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .w-400{
+        width: 100%;
+    }
+
+    .text-white {
+        color: #fff;
+    }
+}

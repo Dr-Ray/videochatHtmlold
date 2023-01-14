@@ -1,0 +1,251 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Video | Voice chat | Home</title>
+    <link rel="stylesheet" href="./index.css">
+    <script src="./js/jquery-1.12.4.js"></script>
+    <style>
+        .text-white{
+            color: #fff;
+        }
+        .friend{
+            margin:8px 0;
+            background-color: #aaa;
+            width:max-content;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .me{
+            display: flex;
+            justify-content: flex-end;
+            
+        }
+        .me .msg{
+            margin:8px 0;
+            max-width:50%;
+            min-width: min-content;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            word-wrap: break-word;
+            background-color: blueviolet;
+
+        }
+        .message-control {
+            border: none;
+            outline: none;
+            padding: 10px;
+            max-width: 100%;
+            min-width: 100%;
+            max-height: 60px;
+            min-height: 60px;
+        }
+        .sidebar {
+            width: 400px;
+            height: 100vh;
+            background-color: gray;
+        }
+        #close_sidebar{
+            display: none;
+        }
+        #open_sidebar{
+            display: none;
+        }
+        .topheader > div {
+            margin-right: 15px;
+        }
+        @media screen and (max-width: 500px) {
+            #close_sidebar{
+                display: block;
+                cursor: pointer;
+                color: #fff;
+                font-size: x-large;
+            }
+            #open_sidebar{
+                display: block;
+                cursor: pointer;
+                font-size: x-large;
+            }
+            .sidebar {
+                width: 0px;
+                min-width: 0;
+                overflow: hidden;
+                height: 100vh;
+                background-color: gray;
+                transition:all .3s ease-in;
+            }
+            .open-sidebar{
+                min-width:100% !important;
+                overflow: visible;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="r-app h-100v bg-gray-400">
+        <div class="row">
+            <div class="sidebar">
+                <div class="hr-row justify-between px-2">
+                    <h3 class="text-center text-white my-2" id="uname"></h3>
+                    <div id="close_sidebar">&times;</div>
+                </div>
+                <div class="d-col v-scroll h-full">
+                    <div class="friendbar my-2 p-2 text-white">
+                        Jonas
+                    </div>
+
+                    <div class="friendbar my-2 p-2 text-white">
+                        Khaleed
+                    </div>
+
+                    <div class="friendbar my-2 p-2 text-white">
+                        Lezni
+                    </div>
+
+                    <div class="friendbar my-2 p-2 text-white">
+                        Croatia
+                    </div>
+
+                    <div class="friendbar my-2 p-2 text-white">
+                        James
+                    </div>
+                </div>
+            </div>
+            <div class="main d-col w-full h-100v">
+                <div class="d-col h-full v-scroll centered">
+                    <h3>Click on any friend to start chat</h3>
+                </div>
+            </div>
+       </div>
+    </div>
+    <script>
+        let data = [],name;
+        window.location.search.split('&').forEach(elem => {
+            data.push(elem.split('=')[1]);
+        });
+        name = data[1].replace('%20',' ')
+        $('#uname').text(name);
+
+        class chat {
+            constructor() {
+                this.videoStream;
+                this.audioStream;
+                this.answerCall;
+                this.rejectCall;
+                this.caller;
+                this.me;
+                this.CurrentFriend;
+            }
+            getVideoStream(){
+                if(navigator.mediaDevices) {
+                    this.videoStream = navigator.mediaDevices.getUserMedia({
+                        video:true,
+                        audio:true
+                    })
+                }
+                return this;
+            }
+            userName(name) {
+                this.me = name;
+                return this;
+            }
+            callFriend(){
+
+            }
+        }
+
+        const myChat = new chat();
+        myChat.userName(name);
+
+        // friends Select
+
+        let frnds = document.querySelectorAll('.friendbar');
+        for(let i=0;i<frnds.length;i++) {
+            frnds[i].onclick = e => {
+                for(let j=0;j<frnds.length;j++){
+                    if(j == i) {
+                        myChat.CurrentFriend = e.target.innerText;
+                        e.target.classList.toggle('bg-primary');
+                        dispFriendChat();
+                    }else{
+                        frnds[j].classList.remove('bg-primary');
+                    }
+                }
+            }
+        }
+
+        function dispFriendChat() {
+            $('.main').get(0).innerHTML = 
+            `
+                <div class="p-2 row justify-between">
+                    <div class="topheader hr-row">
+                        <div id="open_sidebar">&#9776;</div>
+                        <div class="">Voice</div> 
+                        <div class="">Video</div> 
+                        <div class="">Share</div>
+                    </div>
+                    <div class="">
+                        <h3>${myChat.CurrentFriend}</h3>
+                    </div>
+                </div>
+                <div class="d-col h-full v-scroll">
+                    <div class="message_area flex-1" id="message_area">
+                        <div class="friend p-2">
+                            Hello how are you doing
+                        </div>
+                    </div>
+                    <div class="inputs">
+                        <form class="form-inline" id="messageform">
+                            <div class="form-group flex-1">
+                                <textarea type="text" id="message" class="message-control" placeholder="Type here"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" id="btn" class="btn btn-login">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            // Start Messaging
+            let marea = $('#message_area');
+            let message;
+            $('#messageform').on('submit',(e) => {
+                e.preventDefault();
+                message = $('#message').val();
+                if(message == ''){
+                    $('#message').focus()
+                }else{
+                    marea.append(
+                        `<div class="me">
+                            <div class="msg p-2 text-white">
+                                ${message}
+                            </div>
+                        </div>`
+                    );
+                    $('#message').val('')
+                    $('#message').focus()
+                }   
+            });
+            // End Messaging
+        }
+        
+
+        // friends Select
+
+        
+
+        // Sidebar
+        $('#close_sidebar').on('click',(e) => {
+            $('.sidebar').toggleClass('open-sidebar')
+        });
+        $('#open_sidebar').on('click',(e) => {
+            $('.sidebar').toggleClass('open-sidebar')
+        });
+        // Sidebar
+        
+    </script>
+</body>
+</html>
